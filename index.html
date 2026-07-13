@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Funktionsübersicht der Software</title>
+<style>
+  :root{
+    --drk-red:#E3000B;
+    --drk-red-dark:#B4000A;
+    --text-dark:#1a1a1a;
+    --text-muted:#5a5a5a;
+    --border-light:#e2e2e2;
+    --sidebar-width:280px;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html,body{
+    font-family:'Segoe UI', Roboto, Arial, Helvetica, sans-serif;
+    background:#ffffff;
+    color:var(--text-dark);
+    line-height:1.6;
+    scroll-behavior:smooth;
+  }
+
+  a{ color:var(--drk-red); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+
+  /* ---------- Kopfzeile ---------- */
+  .top-bar{
+    position:fixed;
+    top:0; left:0; right:0;
+    height:64px;
+    background:#ffffff;
+    border-bottom:3px solid var(--drk-red);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 20px;
+    z-index:1000;
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+
+  .brand-mark{
+    width: 100px;
+    height:40px;
+    flex-shrink:0;
+    display:block;
+    object-fit:contain;
+  }
+
+  .brand-text{
+    font-size:16px;
+    font-weight:600;
+    color:var(--text-dark);
+    letter-spacing:.2px;
+  }
+
+  .brand-sub{
+    font-size:12px;
+    color:var(--text-muted);
+    display:block;
+  }
+
+  .menu-toggle{
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    gap:5px;
+    width:32px;
+    height:32px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:0;
+  }
+
+  .menu-toggle span{
+    display:block;
+    height:3px;
+    width:100%;
+    background:var(--text-dark);
+  }
+
+  /* ---------- Seitenlayout ---------- */
+  .layout{
+    display:flex;
+    padding-top:64px;
+    min-height:100vh;
+  }
+
+  /* ---------- Navigation links (Desktop) ---------- */
+  .sidebar{
+    width:var(--sidebar-width);
+    flex-shrink:0;
+    position:fixed;
+    top:64px;
+    bottom:0;
+    left:0;
+    overflow-y:auto;
+    border-right:1px solid var(--border-light);
+    background:#ffffff;
+    padding:24px 0 40px 0;
+  }
+
+  .sidebar-title{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--text-muted);
+    padding:0 24px;
+    margin-bottom:12px;
+  }
+
+  .nav-list{
+    list-style:none;
+  }
+
+  .nav-list a{
+    display:block;
+    padding:9px 24px;
+    color:var(--text-dark);
+    font-size:14.5px;
+    border-left:3px solid transparent;
+  }
+
+  .nav-list a:hover{
+    background:#fafafa;
+    text-decoration:none;
+    color:var(--drk-red);
+  }
+
+  .nav-list a.active{
+    border-left-color:var(--drk-red);
+    color:var(--drk-red);
+    font-weight:600;
+    background:#fdf2f2;
+  }
+
+  .nav-list .sub{
+    padding-left:40px;
+    font-size:13.5px;
+    color:var(--text-muted);
+  }
+
+  .nav-list .sub:hover{ color:var(--drk-red); }
+
+  .nav-section{ margin-bottom:6px; }
+
+  /* ---------- Hauptinhalt ---------- */
+  .content{
+    margin-left:var(--sidebar-width);
+    padding:40px 48px 80px;
+    max-width:860px;
+    width:100%;
+  }
+
+  .page-intro{
+    margin-bottom:48px;
+    padding-bottom:24px;
+    border-bottom:1px solid var(--border-light);
+  }
+
+  .page-intro h1{
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:10px;
+    color:var(--text-dark);
+  }
+
+  .page-intro p{
+    color:var(--text-muted);
+    font-size:15px;
+    max-width:640px;
+  }
+
+  .status-tag{
+    display:inline-block;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--drk-red);
+    border:1px solid var(--drk-red);
+    padding:3px 8px;
+    margin-bottom:14px;
+  }
+
+  section.main-section{
+    margin-bottom:56px;
+    scroll-margin-top:84px;
+  }
+
+  .section-heading{
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    margin-bottom:8px;
+    padding-bottom:10px;
+    border-bottom:2px solid var(--drk-red);
+  }
+
+  .section-number{
+    font-size:26px;
+    font-weight:700;
+    color:var(--drk-red);
+    min-width:36px;
+  }
+
+  .section-heading h2{
+    font-size:22px;
+    font-weight:700;
+    color:var(--text-dark);
+  }
+
+  .section-lead{
+    color:var(--text-muted);
+    margin:14px 0 24px;
+    font-size:15px;
+    max-width:680px;
+  }
+
+  .sub-section{
+    margin:28px 0 0 0;
+    padding-left:0;
+    scroll-margin-top:84px;
+  }
+
+  .sub-heading{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin-bottom:8px;
+  }
+
+  .sub-number{
+    font-size:15px;
+    font-weight:700;
+    color:var(--drk-red);
+    min-width:38px;
+  }
+
+  .sub-heading h3{
+    font-size:16.5px;
+    font-weight:600;
+    color:var(--text-dark);
+  }
+
+  .sub-section p{
+    font-size:14.5px;
+    color:var(--text-dark);
+    margin-bottom:14px;
+    max-width:680px;
+  }
+
+  /* ---------- Platzhalter-Abbildungen ---------- */
+  .figure{
+    margin:16px 0 20px;
+    max-width:680px;
+  }
+
+  .figure-placeholder{
+    width:100%;
+    aspect-ratio:16/9;
+    border:1px dashed #b5b5b5;
+    background:#fafafa;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#8a8a8a;
+    font-size:13px;
+    text-align:center;
+    padding:16px;
+  }
+
+  .figure-caption{
+    font-size:12.5px;
+    color:var(--text-muted);
+    margin-top:6px;
+  }
+
+  .figure-caption strong{
+    color:var(--text-dark);
+  }
+
+  .note-box{
+    background:#fdf2f2;
+    border-left:3px solid var(--drk-red);
+    padding:12px 16px;
+    font-size:13.5px;
+    color:var(--text-dark);
+    max-width:680px;
+    margin:16px 0;
+  }
+
+  /* ---------- Fließtext-Liste ---------- */
+  .content-list{
+    list-style:none;
+    max-width:680px;
+    margin:16px 0 20px;
+    padding:0;
+  }
+ 
+  .content-list li{
+    position:relative;
+    padding:10px 0 10px 22px;
+    font-size:14.5px;
+    color:var(--text-dark);
+    border-bottom:1px solid var(--border-light);
+  }
+ 
+  .content-list li:last-child{
+    border-bottom:none;
+  }
+ 
+  .content-list li::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:18px;
+    width:8px;
+    height:8px;
+    background:var(--drk-red);
+  }
+ 
+  .content-list li strong{
+    color:var(--drk-red);
+    font-weight:600;
+  }
+  /* ---------- Prozess-Galerie ---------- */
+  .process-gallery{
+    max-width:680px;
+    margin:16px 0 24px;
+  }
+ 
+  .process-thumbs{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding-bottom:8px;
+    margin-bottom:16px;
+  }
+ 
+  .process-thumb{
+    flex-shrink:0;
+    width:88px;
+    height:64px;
+    border:2px solid var(--border-light);
+    background:#fafafa;
+    cursor:pointer;
+    padding:0;
+    overflow:hidden;
+  }
+ 
+  .process-thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+ 
+  .process-thumb.active{
+    border-color:var(--drk-red);
+  }
+ 
+  .process-viewer{
+    display:flex;
+    gap:24px;
+    align-items:flex-start;
+    border:1px solid var(--border-light);
+    padding:20px;
+    background:#ffffff;
+  }
+ 
+  .process-viewer-image{
+    flex:0 0 55%;
+    border:1px dashed #b5b5b5;
+    background:#fafafa;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+ 
+  .process-viewer-image img{
+    width:100%;
+    height:auto;
+    display:block;
+  }
+ 
+  .process-viewer-text{
+    flex:1;
+    font-size:14.5px;
+    color:var(--text-dark);
+  }
+ 
+  .process-viewer-text .step-label{
+    display:block;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--drk-red);
+    font-weight:600;
+    margin-bottom:6px;
+  }
+ 
+  @media (max-width:700px){
+    .process-viewer{
+      flex-direction:column;
+    }
+    .process-viewer-image{
+      flex:none;
+      width:100%;
+    }
+  }
+
+  .process-nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:12px;
+    max-width:680px;
+  }
+ 
+  .process-nav-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:none;
+    border:1px solid var(--drk-red);
+    color:var(--drk-red);
+    font-size:13px;
+    font-weight:600;
+    padding:6px 14px;
+    cursor:pointer;
+  }
+ 
+  .process-nav-btn:hover{
+    background:var(--drk-red);
+    color:#fff;
+  }
+ 
+  .process-nav-btn:disabled{
+    opacity:.35;
+    cursor:default;
+    border-color:var(--border-light);
+    color:var(--text-muted);
+  }
+ 
+  .process-nav-btn:disabled:hover{
+    background:none;
+    color:var(--text-muted);
+  }
+ 
+  .process-nav-counter{
+    font-size:13px;
+    color:var(--text-muted);
+  }
+  
+
+  footer.page-footer{
+    border-top:1px solid var(--border-light);
+    padding-top:20px;
+    font-size:12.5px;
+    color:var(--text-muted);
+  }
+
+  /* ---------- Overlay für mobiles Menü ---------- */
+  .overlay{
+    display:none;
+    position:fixed;
+    top:64px; left:0; right:0; bottom:0;
+    background:rgba(0,0,0,.35);
+    z-index:900;
+  }
+
+  .overlay.show{ display:block; }
+
+  /* ---------- Responsive: Mobil ---------- */
+  @media (max-width: 900px){
+    .menu-toggle{ display:flex; }
+
+    .brand-sub{ display:none; }
+
+    .sidebar{
+      transform:translateX(-100%);
+      transition:transform .25s ease;
+      width:280px;
+      z-index:950;
+      box-shadow:2px 0 12px rgba(0,0,0,.15);
+    }
+
+    .sidebar.open{
+      transform:translateX(0);
+    }
+
+    .content{
+      margin-left:0;
+      padding:28px 20px 60px;
+    }
+
+    .page-intro h1{ font-size:23px; }
+
+    .section-number{ font-size:21px; min-width:30px; }
+
+    .section-heading h2{ font-size:19px; }
+
+  
+
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="brand">
+    <button class="menu-toggle" id="menuToggle" aria-label="Menü öffnen" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <img class="brand-mark" src="/Users/beckern/Desktop/2019-01-27-59-Logo-DRK-Neu.png" alt="DRK Logo Platzhalter">
+    <div>
+      <div class="brand-text">RobuCheck Helpdesk</div>
+      <span class="brand-sub">Anleitungen und Hilfestellungen für RobuCheck Materialverwaltungssystem</span>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="layout">
+
+  <nav class="sidebar" id="sidebar" aria-label="Seitennavigation">
+    <div class="sidebar-title">Inhalt</div>
+    <ul class="nav-list">
+      <li class="nav-section"><a href="#abschnitt-1" class="active">1. Homepage und Zugangsprofile</a></li>
+      <li><a href="#abschnitt-1-1" class="sub">1.1 Primäres Einsatzmittel</a></li>
+      <li><a href="#abschnitt-1-2" class="sub">1.2 Veranstaltungen</a></li>
+      <li><a href="#abschnitt-1-3" class="sub">1.3 Reiter "Mein Verbrauch"</a></li>
+
+
+      <li class="nav-section"><a href="#abschnitt-2">2. Checklisten</a></li>
+      <li><a href="#abschnitt-2-1" class="sub">2.1 Auswahl der richtigen Checkliste</a></li>
+      <li><a href="#abschnitt-2-2" class="sub">2.2 Datensatzstruktur</a></li>
+
+      <li class="nav-section"><a href="#abschnitt-3">3. Verbrauchsdokumentation</a></li>
+      <li><a href="#abschnitt-3-1" class="sub">3.1 Anwendungsbeispiel</a></li>
+      <li><a href="#abschnitt-3-2" class="sub">3.2 Troubleshooting und FAQs</a></li>
+
+      <li class="nav-section"><a href="#abschnitt-4">4. Besondere Funktionen</a></li>
+      <li><a href="#abschnitt-4-1" class="sub">4.1 Auslesen von Daten via SecurPharm </a></li>
+
+      <li class="nav-section"><a href="#abschnitt-5">5. Weitere Feststellungen und Definitionen</a></li>
+        <li><a href="#abschnitt-4-1" class="sub">4.1 Datumfeststellung </a></li>
+
+    </ul>
+  </nav>
+
+  <main class="content">
+
+    <div class="page-intro">
+      <span class="status-tag">Version 1.0</span>
+      <h1>RobuCheck Helpdesk</h1>
+      <p>Vielen Dank, dass du RobuCheck verwendest. Auf dieser Seite stellen wir (provisorischen) Support zur Nutzung von RobuCheck für Helferinnen und Helfer des Deutschen Roten Kreuzes zur Verfügung.</p>
+    </div>
+
+    <section class="main-section" id="abschnitt-1">
+      <div class="section-heading">
+        <span class="section-number">1</span>
+        <h2>Homepage und Zugangsprofile</h2>
+      </div>
+      <p class="section-lead">Die Homepage ermöglicht einen schnellen Start in die Funktionen und erleichtert die Bedienung von RobuCheck. Hierfür ist es notwendig, beim Start der App die Felder <b>Einsatzmittel</b> und <b>Veranstaltung</b> auszufüllen.</p>
+      <p class="section-lead"> Diese Angaben werden täglich gegen 03:00 Uhr morgens zurückgesetzt, um ein fehlerhaftes Übernehmen in Folgedienste zu vermeiden. Insofern ist ein "Ausbuchen" nach dem Dienst nicht erforderlich und im Übrigen technisch auch nicht möglich.</p>
+      <p class="section-lead">Die Angaben zu Veranstaltung und Einsatzmittel sollten grundsätzlich bei Dienstbeginn überprüft werden.</p>
+
+      <div class="sub-section" id="abschnitt-1-1">
+        <div class="sub-heading">
+          <span class="sub-number">1.1</span>
+          <h3>Primäres Einsatzmittel</h3>
+        </div>
+        <p>Als primäres Einsatzmittel im Kontext der Homepage sollte dasjenige Einsatzmittel gewählt werden, aus dem final die meisten Sachen entnommen werden und das auf der Wache wieder aufgefüllt wird. Dies kann ein Fahrzeug, ein Case oder ein Rucksack sein. Der Wert dient als Standard-Vorschlag für Verbrauchsberichte. </p>
+        <div class="figure">
+          <img src="/Users/beckern/Desktop/abb1_prim_em.png" alt="Konzept primäres Einsatzmittel" style="width: 100%; height: auto;">
+        </div>
+        <p>Abb. 1: Konzept primäres Einsatzmittel als Vorschlagswert für die Verbrauchsberichte</p>
+      </div>
+
+      <div class="sub-section" id="abschnitt-1-2">
+        <div class="sub-heading">
+          <span class="sub-number">1.2</span>
+          <h3>Veranstaltung</h3>
+        </div>
+        <p>Die Veranstaltung muss aus der Liste der aktuellen Veranstaltungen ausgewählt werden, die Bezeichnung stimmt in der Regel mit der offiziellen Bezeichnung in HiOrg überein. Im Zweifelsfall kann die Dienstnummer (z.B. 24/26) verglichen werden. Sie ist Teil jeder Bezeichnung.</p>
+        <p>Veranstaltungen können durch die Nutzer nicht selbst angelegt werden, dies ist nur über das Admin-Portal möglich. Sollte eine Veranstaltung bei Dienstbeginn nicht angelegt sein, bitten wir um kurze telefonische Rückmeldung.</p>
+      </div>
+
+      <div class="sub-section" id="abschnitt-1-3">
+        <div class="sub-heading">
+          <span class="sub-number">1.3</span>
+          <h3>Reiter Mein Verbrauch</h3>
+        </div>
+        <p>Über den Button "Mein Verbrauch" kann eine Übersicht über alle bisher angelegten Verbrauchsberichte für die gegenwärtig ausgewählte Veranstaltung angezeigt werden. Sie dient insbesondere auch dazu, das koordinierte Nachfüllen nach einem Dienst zu ermöglichen.</p>
+        <p>Verbrauchsberichte werden kategorisiert nach dem Einsatzmittel, aus dem sie entnommen wurden; sekundär nach dem Datum der Entnahme. Ein Abkreuzen und damit Eintragen als "Ist aufgefüllt" nach dem Dienst hilft euch sowie uns bei der Nachverfolgung und Bestandskontrolle.</p>
+      </div>
+
+    </section>
+
+    <section class="main-section" id="abschnitt-2">
+      <div class="section-heading">
+        <span class="section-number">2</span>
+        <h2>Checklisten</h2>
+      </div>
+      <p class="section-lead">Über die Checklisten können die Bestände kontrolliert werden und damit die Einsatzbereitschaft des Einsatzmittels überprüft werden. Gleichzeitig sind die Angaben für uns hier besonders wichtig: sie erleichtern uns massiv den Überblick über alle Positionen, indem wir den Zustand, Ablaufdaten und mehr direkt einsehen und speichern können. Indem ihr die Angaben in den Checklisten pflegt, tragt ihr erheblich zur Einsatzbereitschaft der Einsatzmittel bei.</p>
+
+      <div class="sub-section" id="abschnitt-2-1">
+        <div class="sub-heading">
+          <span class="sub-number">2.1</span>
+          <h3>Auswahl der richtigen Checkliste</h3>
+        </div>
+        <p>Über die Funktion "Checklisten" (Homepage unten rechts) können alle Checklisten ausgewählt werden. Bitte stelle sicher, dass du die richtige Checkliste ausgewählt hast. Alternativ kann über das Drei-Strich-Menü oben rechts eine Übersicht über alle Checklisten erreicht werden.</p>
+        <p>Die Aufstellung erfolgt gegliedert nach Art des Einsatzmittels.</p>
+        <p>Der Button "Checkliste" auf der Homepage im oberen linken Quadranten führt direkt zur Checkliste des primären Einsatzmittels.</p>
+        <p>In der Checkliste können die Produkte nach Lagerort angesteuert werden, hierüber erfolgt die Auswahl.</p>
+      </div>
+
+      <div class="sub-section" id="abschnitt-2-2">
+        <div class="sub-heading">
+          <span class="sub-number">2.2</span>
+          <h3>Datensatzstruktur</h3>
+        </div>
+        <div class="note-box">tl,dr: Datum und Druck werden nur dargestellt, wenn auch tatsächlich erforderlich. Bitte immer alle Daten auf dem neuesten Stand halten.</div>
+        <p>Die Datensätze enthalten folgende Angaben (Datum und Druck nur, wenn erforderlich):</p>
+          <ul class="content-list">
+            <li><strong>Rückmeldung:</strong> Hier wird der Funktionszustand übergeben. Eine Fehlermeldung sollte dann eingetragen werden, wenn die Gründe für eine Fehlermeldung vorliegen. Sie kann auch über die Daumen-Symbole geändert werden.</li>
+            <li><strong>Textliche Anmerkung:</strong> Ist eine Fehlermeldung erforderlich, dann kannst du hier weitere Angaben für uns hinterlegen, z.B. den Fehler näher beschreiben.</li>
+            <li><strong>Datum:</strong> Gebe hier das nächste Verfallsdatum ein. Beachte die Hinweise zur Definition des nächsten Verfallsdatum.</li>
+            <li><strong>Druck:</strong> Gebe hier den aktuellen Druck in der Sauerstoffflasche ein.</li>
+          </ul>
+        <p>Symbole in der Checklisten-Übersicht können auf fehlende Angaben oder Fehlermeldungen hinweisen.</p>
+        <p><strong>Wichtig:</strong> Mit dem Löschen einer Fehlermeldung wird auch die textliche Anmerkung automatisch gelöscht.</p>
+      </div>
+    </section>
+
+    <section class="main-section" id="abschnitt-3">
+      <div class="section-heading">
+        <span class="section-number">3</span>
+        <h2>Verbrauchsdokumentation</h2>
+      </div>
+      <p class="section-lead">Hier erläutern wir dir, wie du neue Verbrauchsberichte schreiben und deinen Verbrauch dokumentieren kannst.</p>
+
+      <div class="sub-section" id="abschnitt-3-1">
+        <div class="sub-heading">
+          <span class="sub-number">3.1</span>
+          <h3>Anwendungsbeispiel</h3>
+        </div>
+        <p>[Platzhaltertext: Ein kurzes Beispiel, wie diese Funktion im Alltag genutzt wird.]</p>
+ 
+        <div class="process-gallery">
+          <div class="process-thumbs">
+            <button class="process-thumb active" data-image="/Users/beckern/Desktop/homepage_markierung_mein-verbrauch.png" data-text="Auf der Homepage den Reiter 'Mein Verbrauch' auswählen. Anders als hier gezeigt sollten die Felder Einsatzmittel und Veranstaltung bereits ausgefüllt sein.">
+              <img src="/Users/beckern/Desktop/homepage_markierung_mein-verbrauch.png" alt="Schritt 1">
+            </button>
+            <button class="process-thumb" data-image="/Users/beckern/Desktop/mein-verbrauch.png" data-text="Auf der Seite Mein Verbrauch siehst du deine bisherigen Verbrauchsberichte, kategorisiert nach Einsatzmittel und (sekundär) Datum. Mit Klick auf das Plussymbol (Add via Schnellwahl) gelangst du zur Schnellwahl für neue Verbrauchsberichte.">
+              <img src="/Users/beckern/Desktop/mein-verbrauch.png" alt="Schritt 2">
+            </button>
+            <button class="process-thumb" data-image="/Users/beckern/Desktop/schnellwahl.png" data-text="Schritt 3: Auf der Schnellwahl-Seite werden Produkte angezeigt, die besonders häufig verbraucht werden. Mit Klick auf eines der Produkte wird direkt ein Verbrauchsbericht erstellt. Wenn du dein Produkt hier nicht findest, kannst du dir weitere Produkte ansehen: Nutze die Funktion ,Über Liste hinzufügen'.">
+              <img src="/Users/beckern/Desktop/schnellwahl.png" alt="Schritt 3">
+            </button>
+            <button class="process-thumb" data-image="/Users/beckern/Desktop/categories_und_suchfunktion.png" data-text="Hier siehst du alle Produkte, gegliedert nach Kategorie. Wenn du lieber per Texteingabe suchen möchtest, benutze die Suchfunktion. (rot-weiße Lupe) und wechsle in die Gesamtansicht aller Artikel. Dort kannst du mit der Suchfunktion (schwarze Lupe oben rechts, steht auf jeder Seite) in allen Einträgen suchen. Mit Klick auf das Produkt wählst du dieses aus und erstellst einen Verbrauchsbericht.">
+              <img src="/Users/beckern/Desktop/categories_und_suchfunktion.png" alt="Schritt 4">
+            </button>
+            <button class="process-thumb" data-image="/Users/beckern/Desktop/angelegter_verbrauchsbericht.png" data-text="So sieht ein erster Verbrauchsbericht aus. Kontrolliere deine Angaben zu (Veranstaltung und) Einsatzmittel.">
+              <img src="/Users/beckern/Desktop/angelegter_verbrauchsbericht.png" alt="Schritt 5">
+            </button>
+            <button class="process-thumb" data-image="/Users/beckern/Desktop/Auswahl Einsatzmittel.png" data-text="Insbesondere das Einsatzmittel kann schon mal variieren und dementsprechend verändert werden müssen. In der Dropdown-Liste findest du aber jedes Einsatzmittel.">
+              <img src="/Users/beckern/Desktop/Auswahl Einsatzmittel.png" alt="Schritt 6">
+            </button>
+            <button class="process-thumb" data-image="/Users/beckern/Desktop/speichern_und_absenden.png" data-text="Wichtiger Schritt zum Schluss: dein Verbrauchsbericht muss noch übernommen und gespeichert werden, sonst ist er nicht im System bei uns angekommen! Einfach Button drücken und absenden.">
+              <img src="/Users/beckern/Desktop/speichern_und_absenden.png" alt="Schritt 7">
+            </button>
+            <button class="process-thumb" data-image="/Users/beckern/Desktop/Anzahl eingeben.png" data-text="Abschließend fragt dich das System noch nach der Anzahl. Einfach eintragen und fertig. Mit Klick auf Save ist der Verbrauchsbericht gespeichert und du wirst zu Schritt 3 / Schnellwahl-Seite zurückgeleitet.">
+              <img src="/Users/beckern/Desktop/Anzahl eingeben.png" alt="Schritt 8">
+            </button>
+            <button class="process-thumb" data-image="/Users/beckern/Desktop/produkt-nachfüllen.png" data-text="Die Liste ,Abkreuzen' kannst du mit Klick auf dieses Symbol. Damit wird notiert, dass du das Produkt nach dem Dienst wieder aufgefüllt hast.">
+              <img src="/Users/beckern/Desktop/produkt-nachfüllen.png" alt="Schritt 9">
+            </button>
+            <button class="process-thumb" data-image="/Users/beckern/Desktop/plus1-funktion.png" data-text="Wenn du während eines Dienstes die Anzahl nachträglich noch ändern willst, kannst du über das kleine Plus noch die Anzahl erhöhen. Auch möglich: Auf den Eintrag klicken und Anzahl manuell erhöhen. CAVE: Die dargestellte Anzahl ist dann die Gesamtzahl.">
+              <img src="/Users/beckern/Desktop/plus1-funktion.png" alt="Schritt 10">
+            </button>
+          </div>
+ 
+          <div class="process-viewer">
+            <div class="process-viewer-image">
+              <img class="process-viewer-img" src="/Users/beckern/Desktop/homepage_markierung_mein-verbrauch.png" alt="Ausgewählter Prozessschritt">
+            </div>
+            <div class="process-viewer-text">
+              <span class="step-label">Erläuterung</span>
+              <p class="process-viewer-p">Auf der Homepage den Reiter 'Mein Verbrauch' auswählen. Anders als hier gezeigt sollten die Felder Einsatzmittel und Veranstaltung bereits ausgefüllt sein.</p>
+            </div>
+          </div>
+
+           <div class="process-nav">
+            <button class="process-nav-btn process-prev" type="button">&#8249; Zurück</button>
+            <span class="process-nav-counter"><span class="process-current">1</span> / <span class="process-total">3</span></span>
+            <button class="process-nav-btn process-next" type="button">Weiter &#8250;</button>
+          </div>
+        </div>
+
+
+        </div>
+ 
+        <div class="note-box">Hinweis: Verbrauchsberichte können nicht gelöscht werden, um Fehler zu verhindern. In diesem Fall schreibt uns bitte einfach eine WhatsApp, wir helfen gerne.</div>
+      
+
+      <div class="sub-section" id="abschnitt-3-2">
+        <div class="sub-heading">
+          <span class="sub-number">3.2</span>
+          <h3>Troubleshooting und FAQs</h3>
+        </div>
+        <p>Abschließend noch ein paar Worte zum Troubleshooting und FAQs.</p>
+          <ul class="content-list">
+            <li><strong>Datenaktualisierung:</strong> Beim Verbrauch und dem anschließenden Auffüllen kann es sich ergeben, dass Produkte unterschiedlichen Ablaufdatums an andere Positionen geräumt werden. Die Änderungen müssen derzeit noch manuell dokumentiert werden, indem die Einträge für die jeweiligen Positionen einzeln akutalisiert werden. Das bedeutet: Eintrag beider Positionen aufrufen und das Datum anpassen.</li>
+          </ul>
+      </div>
+
+    </section>
+
+    <section class="main-section" id="abschnitt-4">
+      <div class="section-heading">
+        <span class="section-number">4</span>
+        <h2>Besondere Funktionen</h2>
+      </div>
+      <p class="section-lead">Es gibt einige besondere Funktionen, die die Arbeit erleichtern.</p>
+
+      <div class="sub-section" id="abschnitt-4-1">
+        <div class="sub-heading">
+          <span class="sub-number">4.1</span>
+          <h3>Einlesen von Daten via SecurPharm</h3>
+        </div>
+        <p>Für einige Artikel ist das Einlesen von Daten via SecurPharm möglich. </p>
+        <p>Dieser Abschnitt wird gegenwärtig noch überarbeitet.</p>
+      </div>
+
+    </section>
+
+    <section class="main-section" id="abschnitt-5">
+      <div class="section-heading">
+        <span class="section-number">5</span>
+        <h2>Weitere Feststellungen und Definitionen</h2>
+      </div>
+
+      <div class="sub-section" id="abschnitt-5-1">
+        <div class="sub-heading">
+          <span class="sub-number">5.1</span>
+          <h3>Wie wird ein Datum verstanden?</h3>
+        </div>
+        <p>Liegt ein Datum im Format DD-MM-YYYY vor, so ist das Verfallsdatum dieses Datum. Liegt ein Datum im Format MM-YYYY vor, so ist immer der 1. des Monats anzugeben. (Systemstandard)</p>
+      </div>
+
+    </section>
+
+    <footer class="page-footer">
+      &copy; Deutsches Rotes Kreuz Rottenburg a.N. e.V. 2026 -- all rights reserved.
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('menuToggle');
+  const overlay = document.getElementById('overlay');
+
+  function openMenu(){
+    sidebar.classList.add('open');
+    overlay.classList.add('show');
+    toggle.setAttribute('aria-expanded', 'true');
+  }
+  function closeMenu(){
+    sidebar.classList.remove('open');
+    overlay.classList.remove('show');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  toggle.addEventListener('click', () => {
+    sidebar.classList.contains('open') ? closeMenu() : openMenu();
+  });
+  overlay.addEventListener('click', closeMenu);
+
+  document.querySelectorAll('.nav-list a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 900) closeMenu();
+    });
+  });
+
+  // Aktiven Menüpunkt beim Scrollen hervorheben (nur Hauptabschnitte)
+  const mainLinks = document.querySelectorAll('.nav-list a:not(.sub)');
+  const mainSections = document.querySelectorAll('section.main-section');
+ 
+  window.addEventListener('scroll', () => {
+    let current = mainSections[0]?.id;
+    mainSections.forEach(sec => {
+      const rect = sec.getBoundingClientRect();
+      if (rect.top <= 120) current = sec.id;
+    });
+    mainLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+    });
+  });  
+  
+
+  // Prozess-Galerie: Miniaturbild-Klick und Pfeilnavigation
+  document.querySelectorAll('.process-gallery').forEach(gallery => {
+    const thumbs = Array.from(gallery.querySelectorAll('.process-thumb'));
+    const img = gallery.querySelector('.process-viewer-img');
+    const text = gallery.querySelector('.process-viewer-p');
+    const prevBtn = gallery.querySelector('.process-prev');
+    const nextBtn = gallery.querySelector('.process-next');
+    const currentEl = gallery.querySelector('.process-current');
+    const totalEl = gallery.querySelector('.process-total');
+ 
+    if (totalEl) totalEl.textContent = thumbs.length;
+ 
+    function activate(index){
+      thumbs.forEach(t => t.classList.remove('active'));
+      thumbs[index].classList.add('active');
+      img.src = thumbs[index].dataset.image;
+      text.textContent = thumbs[index].dataset.text;
+      if (currentEl) currentEl.textContent = index + 1;
+      if (prevBtn) prevBtn.disabled = index === 0;
+      if (nextBtn) nextBtn.disabled = index === thumbs.length - 1;
+    }
+ 
+    thumbs.forEach((btn, index) => {
+      btn.addEventListener('click', () => activate(index));
+    });
+ 
+    if (prevBtn){
+      prevBtn.addEventListener('click', () => {
+        const current = thumbs.findIndex(t => t.classList.contains('active'));
+        if (current > 0) activate(current - 1);
+      });
+    }
+ 
+    if (nextBtn){
+      nextBtn.addEventListener('click', () => {
+        const current = thumbs.findIndex(t => t.classList.contains('active'));
+        if (current < thumbs.length - 1) activate(current + 1);
+      });
+    }
+ 
+    const startIndex = thumbs.findIndex(t => t.classList.contains('active'));
+    activate(startIndex >= 0 ? startIndex : 0);
+  });
+</script>
+
+</body>
+</html>
